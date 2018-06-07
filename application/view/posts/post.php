@@ -1,23 +1,22 @@
 <?php
 $this->layout('layout');
 ?>
- <section class="s-content s-content--narrow s-content--no-padding-bottom">
-
-        <article class="row format-standard">
-            <div class="s-content__header col-full">
-                <h1 style="color: CornflowerBlue;" class="s-content__header-title">
+</section>
+ <section class="s-content s-content--narrow">
+        <div class="row">
+             <div class="s-content__header col-full">
+                <h1 class="s-content__header-title">
                     <?= $posts->title ?>
                 </h1>
-                <ul class="s-content__header-meta">
-                    <li>
-                        <p style="color: CornflowerBlue;"><?= $posts->category ?>  <?= $posts->grade ?></p>
+            </div>
+            <ul>
+                        <p style="color: CornflowerBlue; text-align: center;"><?= $posts->category ?>  <?= $posts->grade ?></p>
                         
-                    </li>
-                </ul>
-            </div> <!-- end s-content__header -->
+               
+            </ul> <!-- end s-content__header -->
             <div>
 
-                <p style="color: white;"class="lead"><?= $posts->body ?></p>
+                <p class="lead"><?= $posts->body ?></p>
                 
             </div>
             <p class="date"><?= $posts->updated_at ?></p>

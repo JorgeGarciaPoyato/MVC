@@ -12,7 +12,7 @@ class Auth
 	public static function checkAuth($role, $redirect = true){
 
 		$acceso = ["Student" => 1 , "Teacher" => 2, "Admin" => 3];
-
+		
 		Session::init();
 
 		if (!isset($_SESSION["user_role"])) {

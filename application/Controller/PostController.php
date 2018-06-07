@@ -15,6 +15,8 @@ use Mini\Model\Post;
 
 use Mini\Model\Category;
 
+use Mini\Model\Grade;
+
 use Mini\Core\Auth;
 
 use Mini\Core\Functions;
@@ -39,8 +41,8 @@ class PostController extends Controller
 
     public function postsAdmin()
     {
-        Auth::checkAuth("Admin");
-        if ($_SESSION['user_role'] == 'Admin') {
+        //Auth::checkAuth("Admin");
+        if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
            
         
         $posts = new Post();
@@ -61,104 +63,127 @@ class PostController extends Controller
     public function show($id)
     {
         $posts = new Post();
-        $posts = $posts->getPost($id);
-        $this->view->addData(["titulo"=>"posts" , "posts" => $posts]);
-        echo $this->view->render("posts/post");
+        $user = $_SESSION['user_id'];
+        $suscrito = $posts->comprobar($user);
+        //var_dump($suscrito->status);
+        //exit();
+        if ($suscrito->status == 'suscrito') {
+           $posts = $posts->getPost($id);
+            $this->view->addData(["titulo"=>"posts" , "posts" => $posts]);
+            echo $this->view->render("posts/post");
+        }else if ($suscrito->status =='nosuscrito'){
+            header("Location: /post/suscripcion");
+        }
+    }
+    public function suscripcion()
+    {
+            $this->view->addData(["titulo"=>"posts"]);
+            echo $this->view->render("/posts/suscripcion");
+    }
+
+    public function suscrito(){
+        $posts = new Post();
+            $id = $_SESSION['user_id'];
+            $posts = $posts->suscripcion($id);
+            $this->view->addData(["titulo"=>"posts"]);
+           header("Location: /home");
     }
 
      public function create()
      {
 
-        Auth::checkAuth("Administrador");
-
-        $tags = new Tag();
-        $tags = $tags->getTags();
-
+        //Auth::checkAuth("Admin");
+        if ($_SESSION['user_role'] == 'Admin' || 'Teacher') {
         $categories = new Category();
         $categories = $categories->getCategories();
 
-  
-        $this->view->addData(["titulo"=>"post" , "tags" => $tags , "categories" => $categories]);
-        echo $this->view->render("posts/create");
+        $grades = new Grade();
+        $grades = $grades->getGrades();
 
+        $this->view->addData(["titulo"=>"post" , "categories" => $categories , "grades" => $grades]);
+        echo $this->view->render("posts/crearpost");
+    }
     }
 
     public function store()
     {
 
-         Auth::checkAuth("Administrador");
-         $tags = $_POST['tags'];
-         unset($_POST['tags']);
+        if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
 
-         $_POST["slug"] = Functions::slug($_POST["name"]);
+        // $_POST["slug"] = Functions::slug($_POST["title"]);
 
          $post = new Post();
 
-        if($id = $post->create($_POST)) {
-                
-            $post->postTag($id, $tags);
-
-            if(isset($_FILES)) $this->file($_FILES['file'] , $id);
-
-            header("Location: /post/postsAdmin");
-        } else {
-
-            header("Location: /error");
-
-        }
+         /*
+            if(!isset($_POST["title"]))
+                $_POST["title"] = "";
+            if(!isset($_POST["excerpt"]))
+                $_POST["excerpt"] = "";
+            if(!isset($_POST["body"]))
+                $_POST["body"] = "";
+            if(!isset($_POST["category"]))
+                $_POST["category"] = "";
+            if(!isset($_POST["grade"]))
+                $_POST["grade"] = "";
+            if(!isset($_POST["id"]))
+                $_POST["id"] = "";
+        */
+            $datos = array(
+                'title' => $_POST["title"],
+                'excerpt' => $_POST["excerpt"],
+                'body' => $_POST["body"],
+                'category' => $_POST["category"],
+                'grade' => $_POST["grade"],
+                'id' => $_POST["id"],
+            );
+           
+             $post->insert($datos);
+             header("Location: /post/postsAdmin");
+        } 
     }
 
-    public function edit($slug){
+    public function edit($id){
 
-        Auth::checkAuth("Administrador");
+       if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
         $post = new Post();
-        $post = $post->getPost($slug);
-        $tags = new Tag();
-        $tags = $tags->getTags();
+
+        $post = $post->getPost($id);
+
         $categories = new Category();
         $categories = $categories->getCategories();
 
-        
-        $this->view->addData(["titulo"=>"post", "post"=>$post , "tags" => $tags , "categories" => $categories ]);
-        echo $this->view->render("posts/edit");
-    }
+        $grades = new Grade();
+        $grades = $grades->getGrades();
 
+        
+        $this->view->addData(["titulo"=>"post", "post"=>$post , "grades" => $grades , "categories" => $categories ]);
+        echo $this->view->render("/posts/edit");
+    }
+}
     public function update($id)
     {
-        Auth::checkAuth("Administrador");
+        if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
 
-            $tags = $_POST['tags'];
-            unset($_POST['tags']);
-
-            $_POST["slug"] = Functions::slug($_POST["name"]);
+       
             $post = new Post();
+            $datos = array(
+                'title' => $_POST["title"],
+                'excerpt' => $_POST["excerpt"],
+                'body' => $_POST["body"],
+                'category' => $_POST["category"],
+                'grade' => $_POST["grade"],
+                'id' => $_POST["id"],
+            );
 
-
-            if($post->update($id , $_POST)) {
-
-                $post->deletePostTag($id);
-
-                $post->postTag($id, $tags);
-
-                if(isset($_FILES)) $this->file($_FILES['file'] , $id);
-
-                header("Location: /post/postsAdmin");
-
-            } else {
-
-            header("Location: /error");
-
-            }
-
+            $post->update($datos,$id);
+            header("Location: /post/postsAdmin");
 
     }
-
+}
      public function delete($id){
 
-          Auth::checkAuth("Admin");
-
+          if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
           $post = new Post();
-
            if($post->delete($id)) {
 
             header("Location: /post/postsAdmin");
@@ -168,7 +193,7 @@ class PostController extends Controller
             echo "NO vaaaaaaaaaaaaaaaaaa";
 
             }
-
+        }
     }
 
 

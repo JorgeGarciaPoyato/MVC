@@ -4,7 +4,7 @@
 
 	use Mini\Model\Login;
 	use Mini\Core\Session;
-
+ 
 	/**
 	* 
 	*/
@@ -26,10 +26,10 @@
 			if ($login->doLogin($_POST)) {
 
 			$this->view->addData(["titulo"=>"login"]);
-        	echo $this->view->render("login/login");
+        	header("Location: /home");
 
 			} else {
-
+				echo ("Email o contraseña incorrecta");
 				$this->view->addData(["titulo"=>"HOME"]);
         		echo $this->view->render("login/index");
 

@@ -3,7 +3,7 @@ $this->layout('adminlayout');
 ?>
 <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Table With Full Features</h3>
+              <h3 class="box-title">Todos los Posts</h3>
               <a href="/post/create" class="btn btn-info pull-right">Crear</a>
             </div>
             <!-- /.box-header -->
@@ -12,10 +12,10 @@ $this->layout('adminlayout');
                 <thead>
                 <tr>
                   <th>Fecha</th>
-                  <th>Name</th>
-                  <th>user_id</th>
-                  <th>category_id</th>
-                  <th>grade_id</th>
+                  <th>Titulo</th>
+                  <th>Id del usuario</th>
+                  <th>Categoria</th>
+                  <th>Grado</th>
                   <th>Borrar</th>
                   <th>Editar</th>
                 </tr>
@@ -29,7 +29,7 @@ $this->layout('adminlayout');
                   <td><?= $post->category ?></td>
                   <td><?= $post->grade ?></td>
                   <td> <a href="<?= URL ?>/post/delete/<?= $post->id ?>" onclick="return confirm('¿Seguro que quieres borrarlo?')">Borrar</a></td>
-                  <td><a href="<?= URL ?>/post/edit/<?= $post->slug ?>">Editar</a></td>
+                  <td><a href="<?= URL ?>/post/edit/<?= $post->id ?>">Editar</a></td>
                 </tr>
                   <?php endforeach ?>
 

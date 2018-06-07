@@ -1,4 +1,4 @@
-                        <header class="header">
+      <header class="header">
         <div class="header__content row">
 
             <div class="header__logo">
@@ -15,26 +15,6 @@
                     <a href="#0"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                 </li>
             </ul>
-
-            <!-- end header__social -->
-            <!--
-           <a class="header__search-trigger" href="#0"></a>
-
-           <div class="header__search">
-
-               <form role="search" method="get" class="header__search-form" action="#">
-                   <label>
-                       <span class="hide-content">Search for:</span>
-                       <input type="search" class="search-field" placeholder="Type Keywords" value="" name="s" title="Search for:" autocomplete="off">
-                   </label>
-                   <input type="submit" class="search-submit" value="Search">
-               </form>
-
-               <a href="#0" title="Close Search" class="header__overlay-close">Close</a>
-
-           </div>   end header__search -->
-
-
             <a class="header__toggle-menu" href="#0" title="Menu"><span>Menu</span></a>
 
             <nav class="header__nav-wrap">
@@ -53,21 +33,28 @@
                     &nbsp
                     &nbsp
               <?php endif ?>
-                    <a href="<?= URL ?>home/about" >About</a></li>
+                    <a href="<?= URL ?>/home/about" >About</a></li>
                     &nbsp
                     &nbsp
-              <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'Admin'): ?>
+
+            <?php if (isset($_SESSION['user_id'])): ?>
+              <?php if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher'): ?>
 
                 <a href="<?= URL ?>/admin" class="text-uppercase">Administración</a>
                     &nbsp
                     &nbsp
             <?php endif ?>
-
+            <?php endif ?>
             <?php if (isset($_SESSION['user_name'])): ?>
-             <a href="<?= URL ?>/login/salir" class="text-uppercase">Cerrar Session</a>
+             <a href="<?= URL ?>/login/salir" class="text-uppercase">Cerrar Sesión</a>
 
             <?php endif ?>
-
+            <?php if (isset($_SESSION['user_role'])): ?>
+                &nbsp
+                    &nbsp&nbsp
+                    &nbsp&nbsp
+            <span class="hidden-xs"> Estas logueado como: <?= $_SESSION["user_name"] ?> </span>
+            <?php endif ?>
                     <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>
 
             </nav> <!-- end header__nav-wrap -->

@@ -15,6 +15,8 @@ use Mini\Model\Message;
 
 use Mini\Model\User;
 
+use Mini\Model\Role;
+
 use Mini\Core\Auth;
 
 use Mini\Core\Functions;
@@ -23,111 +25,113 @@ use Mini\Core\Functions;
 class UserController extends Controller
 {
 
-    public function index(){
-
-        Auth::checkAuth("Alumno");
-
+    public function usersAdmin()
+    {
+       //Auth::checkAuth("Admin");
+        if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
+          
+        
         $users = new User();
         $users = $users->getUsers();
 
-        $this->view->addData(["titulo"=>"messages" , "users" => $users]);
-        echo $this->view->render("users/index");
-
-
+        $this->view->addData(["user"=>"user" , "users" => $users]);
+        echo $this->view->render("users/todousers");
+        
+        }
+        else
+        {
+            header("Location: /home");
+        }
     }
 
-  /*  public function show($slug)
+     public function create()
+     {
+        if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
+        $roles = new Role();
+        $roles = $roles->getRoles(); 
+        $this->view->addData(["title"=>"user", "roles" => $roles]);
+        echo $this->view->render("users/crearuser");
+    }else
+        {
+            header("Location: /home");
+        }
+}
+
+    public function store()
     {
 
-        Auth::checkAuth("Alumno");
-        $post = new Message();
-        $post = $post->getMessage($slug);
+        if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
 
-         $this->view->addData(["titulo"=>"messages" , "post" => $post]);
-        echo $this->view->render("messages/show");
-
+         $user = new User();
+          $_POST['password'] = md5($_POST['password']);
+            $datos = array(
+                'name' => $_POST["name"],
+                'email' => $_POST["email"],
+                'password' => ($_POST['password']),
+                'role_id' => $_POST["role_id"],
+            );
+          
+           
+             $user->insert($datos);
+             header("Location: /user/usersAdmin");
+        }else
+        {
+            header("Location: /home");
+        } 
     }
 
-     public function create(){
-
-        Auth::checkAuth("Administrador");
-  
-        $this->view->addData(["titulo"=>"messages"]);
-        echo $this->view->render("messages/create");
-
-    }
-
-    public function store(){
-
-        Auth::checkAuth("Administrador");
-        $_POST["slug"] = Functions::slug($_POST["name"]);
-        $tag = new Message();
-       // $category = $category->create($_POST);
-
-        if($tag->create($_POST)) {
-         
-           header("Location: /tag/");
-        } else {
-
-            $this->create();
-
-        }
-
-    }
-
-       
-    public function edit($slug){
-
-        Auth::checkAuth("Administrador");
-        $tag = new Message();
-        $tag = $tag->getMessage($slug);
-
-        
-        $this->view->addData(["titulo"=>"messages", "tag"=>$tag]);
-        echo $this->view->render("messages/edit");
-
-
-    }
-    public function update(){
-
-            Auth::checkAuth("Administrador");
-
-            $_POST["slug"] = Functions::slug($_POST["name"]);
-            $tag = new Message();
-
-
-            if($tag->update($_POST)) {
-
-            header("Location: /tag/");
-
-            } else {
-
-            $tag->update($_POST);
-
-            }
-    }
-
-    
     public function delete($id){
 
-          Auth::checkAuth("Administrador");
+        if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
 
-          $tag = new Message();
+          $user = new User();
 
-           if($tag->delete($id)) {
+           if($user->delete($id)) {
 
-            header("Location: /tag/");
+            header("Location: /user/usersAdmin");
 
             } else {
 
-            header("Location: /error/");
+            echo "No se ha borrado";
 
             }
+        }else
+        {
+            header("Location: /home");
+        }
+    }
 
-    }*/
+ 
+    public function edit($id){
 
+       if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
+        $users = new User();
+        $users = $users->getUser($id);   
+
+        $this->view->addData(["titulo"=>"users", "users" => $users]);
+        echo $this->view->render("/users/edituser");
+    }else
+        {
+            header("Location: /home");
+        }
+}
+    public function update ($id)
+    {
+         if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher') {
+        
+            $_POST['password'] = md5($_POST['password']);
+       
+            $users = new User();
+           //$datos = array(['name' => $_POST["name"], 'email' => $_POST["email"], 'password' => md5($_POST["password"])]);
+
+            $users->update($_POST,$id);
+
+            header("Location: /user/usersAdmin");
+        }else
+        {
+            header("Location: /home");
+        }
     
 
-
-   
+    }
 }

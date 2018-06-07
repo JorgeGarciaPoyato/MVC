@@ -8,13 +8,15 @@ $this->layout('layout');
 
             <div class="s-content__header col-full">
                 <h1 class="s-content__header-title">
-                  Sobre esta pagina  
+                  
                 </h1>
-            </div> <!-- end s-content__header -->
+            </div>
+             <div class="s-content__header col-full">
+                <h1><a href="/post/suscrito">¡Suscripción!</a></h1>
+            </div> 
             <div class="col-full s-content__main">
 
-                <p class="lead">Esta pagina web se trata de un proyecto desarrollado para la asignatura de Desarrollo Web en Entorno Servidor del Grado Superior de Desarrollo de Aplicaciones Web.</p>
-                <p>Pagina desarrollada por Jorge García Poyato 2018</p>
+                <p class="lead" style="text-align: center;">¡Suscribete para poder acceder a todos los posts con  tan solo pulsar en suscripción!</p>
             </div> <!-- end s-content__main -->
 
         </div> <!-- end row -->

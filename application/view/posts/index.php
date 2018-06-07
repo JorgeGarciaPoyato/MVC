@@ -28,9 +28,16 @@ $this->layout('layout');
                                 <?= $post->excerpt ?>
                             </p>
                         </div>
+                        <?php if (isset($_SESSION['user_id'])): ?>
                         <div class="entry__excerpt">
-                            <a href="<?= URL ?>/post/show/<?= $post->id ?>">Leer el post</a>
+                            <a href="/post/show/<?= $post->id ?>">Leer el post</a>
                         </div>
+                        <?php endif ?>
+                        <?php if (!isset($_SESSION['user_id'])): ?>
+                        <div class="entry__excerpt">
+                            <p>Logueate para leer el post</a>
+                        </div>
+                        <?php endif ?>
                         <div class="entry__meta">
                             <span class="entry__meta-links">
                                 <p><?= $post->category ?>  <?= $post->grade ?></p>

@@ -71,6 +71,8 @@
 
 			Session::set('user_role' , $usuario->role);
 
+			Session::set('status' , $usuario->status);  
+
 			return true;
 
 		}

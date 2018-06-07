@@ -4,13 +4,14 @@ namespace Mini\Model;
 use Mini\Core\Model;
 use Mini\Core\Session;
 
-class Category extends Model
+class Role extends Model
 {
-	public function getCategories()
+ public function getRoles()
     {
-    	$sql = 'SELECT * FROM Categories';
+    	$sql = 'SELECT * FROM roles';
     	$query = $this->db->prepare($sql);
     	$query->execute();
     	return $query->fetchAll();
     }
+	
 }

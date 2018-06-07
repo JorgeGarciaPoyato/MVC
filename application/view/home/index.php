@@ -10,12 +10,12 @@ $this->layout('layout');
                 <div class="entry" style="background-image:url('images/thumbs/featured/programacion.jpg');">
 
                     <div class="entry__content">
-                        <span class="entry__category"><a href="/programacion">Programacion</a></span>
+                        <span class="entry__category"><a href="#">Posts</a></span>
 
-                        <h1><a href="/programacion" title="">Aprende como programar en PhP, Python y C++</a></h1>
+                        <h1><a href="#" title="">Mira todos los posts disponibles</a></h1>
 
                         <div class="entry__info">
-                            <a href="/programacion" class="entry__profile-pic">
+                            <a href="#" class="entry__profile-pic">
                                 <img class="avatar" src="images/avatars/k.jpg" alt="">
                             </a>
 
@@ -34,9 +34,9 @@ $this->layout('layout');
                 <div class="entry" style="background-image:url('images/thumbs/featured/bootstrap.jpg');">
 
                     <div class="entry__content">
-                        <span class="entry__category"><a href="/diseño">Diseño</a></span>
+                        <span class="entry__category"><a href="#">Logueate</a></span>
 
-                        <h1><a href="/diseño" title="">Dale estilo a tu pagina aprendiendo CSS y Bootstrap</a></h1>
+                        <h1><a href="#" title="">Logueate y suscribete para ver todos los posts</a></h1>
 
                         <div class="entry__info">
                             <a href="#0" class="entry__profile-pic">

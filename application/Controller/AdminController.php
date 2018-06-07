@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace Mini\Controller;
 
 use Mini\Model\Post;
@@ -13,7 +13,7 @@ class AdminController extends Controller
 
         //Auth::checkAuth("Admin");
 
-   if ($_SESSION['user_role'] == 'Admin') {
+   if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Teacher' ) {
         $this->view->addData(["titulo"=>"ADMIN"]);
         echo $this->view->render("admin/index");
 

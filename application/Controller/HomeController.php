@@ -38,36 +38,14 @@ class HomeController extends Controller
          $this->view->addData(["titulo"=>"show" , "post" => $post]);
         echo $this->view->render("posts/show");
 
-    }
-
-    /**
-     * PAGE: exampleone
-     * This method handles what happens when you move to http://yourproject/home/exampleone
-     * The camelCase writing is just for better readability. The method name is case-insensitive.
-     */
-    public function exampleOne()
-    {
-        // load views
-        $this->view->addData(["titulo"=>"HOME"]);
-        echo $this->view->render("home/example_one.php");
-
-    }
-
-    /**
-     * PAGE: exampletwo
-     * This method handles what happens when you move to http://yourproject/home/exampletwo
-     * The camelCase writing is just for better readability. The method name is case-insensitive.
-     */
-    public function exampleTwo()
-    {
-        // load views
-        $this->view->addData(["titulo"=>"HOME"]);
-        echo $this->view->render("home/example_two.php");
-    }
-
+    } 
     public function about()
     {
+        // load views
+       //$posts = new Post();
+       // $posts = $posts->getPosts();
+
         $this->view->addData(["titulo"=>"HOME"]);
-        echo $this->view->render("about/index"); 
+        echo $this->view->render("/about/index");
     }
 }

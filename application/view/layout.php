@@ -51,7 +51,7 @@
 
                     <ul class="s-footer__linklist">
                         <li><a href="#0">Home</a></li>
-                        <li><a href="#0">Categorias</a></li>
+                        <li><a href="#0">Posts</a></li>
                         <li><a href="#0">About</a></li>
                     </ul>
 
