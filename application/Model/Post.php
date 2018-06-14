@@ -67,4 +67,13 @@ class Post extends Model
         return true;
     }
 
+
+    public function listarcategorias($name){
+
+        $sql = "SELECT p.* , g.name as grade , c.name as category FROM posts as p , grades as g , categories as c WHERE g.id = grade_id and c.id = category_id and c.name = '$name'";
+       // var_dump($sql);
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
 }

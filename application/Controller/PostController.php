@@ -196,6 +196,15 @@ class PostController extends Controller
         }
     }
 
+     public function categorias($name){
+
+        $posts = new Post();
+
+        $posts = $posts->listarcategorias($name);
+        $this->view->addData(["titulo"=>"posts", "posts"=>$posts]);
+        echo $this->view->render("posts/filtrarcategorias");
+    }
+
 
 
    

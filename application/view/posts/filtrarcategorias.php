@@ -17,7 +17,6 @@ $this->layout('layout');
                 <div class="grid-sizer"></div>
                 
                 <?php foreach ($posts as $post): ?>
-
                 <article class="masonry__brick entry format-standard" data-aos="fade-up">
                     <div class="entry__text">
                         <div class="entry__header">
